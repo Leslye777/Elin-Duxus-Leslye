@@ -46,14 +46,13 @@ Sua tarefa é construir a melhor solução no tempo combinado, considerando os r
 - Id_Time  (foreign key tabela Time)
 - Id_Integrante  (foreign key tabela Integrante)
 
-## Funcionalidades
+## Funcionalidades Principais
 
 ### 1) Tratamento de dados
 
-Esse passo é muito interessante no teste porque gostaríamos de medir a sua capacidade de lidar com estruturas de dados.
-Já existe um service criado no projeto, com métodos para serem implementados.
-
-Este passo complementa o passo 3, descrito mais abaixo.
+Esse passo é o mais importante no teste porque gostaríamos de medir a sua capacidade de lidar com estruturas de dados.
+Já existe um service criado no projeto(ApiService), com métodos para serem implementados.
+**Obs**.: Caso decida criar um projeto do zero sem aproveitar o código já fornecido neste repositório, pedimos aqui a restrição de: **Não utilizar funções de SQL como 'count' para implementar estes métodos**. Você deve usar os selects para trazer todos os dados, mas processe-os na linguagem.
 
 No quadro, alguns detalhes sobre os métodos:
 
@@ -67,7 +66,7 @@ No quadro, alguns detalhes sobre os métodos:
 | ContagemPorFranquia | Data inicial e Data final (podem ser null) | Vai retornar o número (quantidade) de Franquias dentro do período |
 | ContagemPorFuncao | Data inicial e Data final (podem ser null) | Vai retornar o número (quantidade) de Funções dentro do período |
 
-
+## Funcionalidades Extras
 ### 2) API de Cadastro
 
 Lembrando: a prioridade é a funcionalidade correta, não as telas. 
@@ -84,7 +83,7 @@ Fazer um cadastro de times onde não importa muito a quantidade de integrantes. 
 ### 3) API para processamento de Dados
 
 Seu sistema vai processar as informações do banco de dados e vai exportá-las através de endpoints.
-Neste passo, colocamos uma restrição artificial: Não utilizar funções de SQL como 'count' para resolver esses processamentos. Você deve usar os selects para trazer todos os dados, mas processe eles na linguagem, através dos métodos implementados no passo 1.
+Você deve usar os selects para trazer todos os dados, mas processe eles na linguagem, através dos métodos implementados no passo 1.
 
 | Endpoint  | Parâmetros |
 |--|--|

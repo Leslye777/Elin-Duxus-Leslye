@@ -1,5 +1,6 @@
 package br.com.duxusdesafio.service;
 
+import br.com.duxusdesafio.dto.TimeDataDTO;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
 import com.tngtech.java.junit.dataprovider.DataProvider;
@@ -56,16 +57,16 @@ public class TesteApiService {
         };
     }
 
- 
-//    @UseDataProvider("testTimeDaDataParams")
-//    @Test
-//    public void testTimeDaData(LocalDate data, List<Time> todosOsTimes, Time esperado) {
-//
-//        Time timeRetornado = apiService.timeDaData(data, todosOsTimes);
-//
-//        assertEquals(esperado, timeRetornado);
-//    }
-//
+
+    @UseDataProvider("testTimeDaDataParams")
+    @Test
+    public void testTimeDaData(LocalDate data, List<Time> todosOsTimes, Time esperado) {
+
+        TimeDataDTO timeRetornado = apiService.timeDaData(data, todosOsTimes);
+
+        assertEquals(esperado.getData(), timeRetornado.getData());
+    }
+
 
 
     @DataProvider

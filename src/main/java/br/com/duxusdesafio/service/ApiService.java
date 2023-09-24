@@ -148,8 +148,30 @@ public class ApiService {
      * Vai retornar o nome da Franquia mais comum nos times dentro do período
      */
     public String franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-        // TODO Implementar método seguindo as instruções!
-        return null;
+        // Filtra os times que estão dentro do período
+        List<Time> timesNoPeriodo = todosOsTimes.stream()
+                .filter(time -> !time.getData().isBefore(dataInicial) && !time.getData().isAfter(dataFinal))
+                .collect(Collectors.toList());
+
+        if (timesNoPeriodo.isEmpty()) {
+            return "Nenhuma franquia encontrada no período especificado";
+        }
+
+        // Contagem das franquias em todos os times no período
+        Map<String, Long> contagemFranquias = timesNoPeriodo.stream()
+                .flatMap(time -> time.getComposicaoTime().stream())
+                .map(time -> time.getIntegrante().getFranquia())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        // Encontra a franquia mais comum
+        Optional<Map.Entry<String, Long>> entryMaisComum = contagemFranquias.entrySet().stream()
+                .max(Map.Entry.comparingByValue());
+
+        if (entryMaisComum.isPresent()) {
+            return entryMaisComum.get().getKey();
+        } else {
+            return "Nenhuma franquia encontrada no período especificado";
+        }
     }
 
 

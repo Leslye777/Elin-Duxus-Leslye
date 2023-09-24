@@ -80,4 +80,19 @@ public class ApiResources {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/franquia-mais-comum")
+    public ResponseEntity<String> franquiaMaisComum(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal
+    ) {
+        List<Time> times = apiService.todosOsTimes();
+        String funcaoMaisComum = apiService.franquiaMaisFamosa(dataInicial, dataFinal, times);
+
+        if (funcaoMaisComum != null ) {
+            return new ResponseEntity<>(funcaoMaisComum, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

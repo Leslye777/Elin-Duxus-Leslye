@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -114,10 +115,34 @@ public class ApiService {
     /**
      * Vai retornar a função mais comum nos times dentro do período
      */
-    public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
+        // Filtra os times que estão dentro do período
+        List<Time> timesNoPeriodo = todosOsTimes.stream()
+                .filter(time -> !time.getData().isBefore(dataInicial) && !time.getData().isAfter(dataFinal))
+                .collect(Collectors.toList());
+
+        if (timesNoPeriodo.isEmpty()) {
+            return "Nenhuma função encontrada no período especificado";
+        }
+
+        // Contagem das funções em todos os times no período
+        Map<String, Long> contagemFuncoes = timesNoPeriodo.stream()
+                .flatMap(time -> time.getComposicaoTime().stream())
+                .map(composicao -> composicao.getIntegrante().getFuncao())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        // Encontra a função mais comum
+        Optional<Map.Entry<String, Long>> entryMaisComum = contagemFuncoes.entrySet().stream()
+                .max(Map.Entry.comparingByValue());
+
+        if (entryMaisComum.isPresent()) {
+            return entryMaisComum.get().getKey();
+        } else {
+            return "Nenhuma função encontrada no período especificado";
+        }
     }
+
+
 
     /**
      * Vai retornar o nome da Franquia mais comum nos times dentro do período

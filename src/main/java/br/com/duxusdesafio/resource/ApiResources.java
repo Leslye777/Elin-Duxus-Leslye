@@ -22,14 +22,14 @@ public class ApiResources {
     private ApiService apiService;
 
     @GetMapping("/time-da-data")
-    public ResponseEntity<TimeDataDTO> timeDaData(@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate data) {
+    public ResponseEntity<TimeDataDTO> timeDaData(@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
 
         List<Time> times = apiService.todosOsTimes();
         TimeDataDTO time = apiService.timeDaData(data, times);
 
-        if(time != null) {
+        if (time != null) {
             return new ResponseEntity<>(time, HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -49,4 +49,35 @@ public class ApiResources {
         }
     }
 
+    @GetMapping("/time-mais-comum")
+    public ResponseEntity<List<String>> timeMaisComum(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal
+    ) {
+        // Suponha que você já tenha uma lista preenchida de times
+        List<Time> times = apiService.todosOsTimes();
+
+        // Chame a função timeMaisComum
+        List<String> timeMaisComum = apiService.timeMaisComum(dataInicial, dataFinal, times);
+
+        if (!timeMaisComum.isEmpty()) {
+            return new ResponseEntity<>(timeMaisComum, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/funcao-mais-comum")
+    public ResponseEntity<String> funcaoMaisComum(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal
+    ) {
+        List<Time> times = apiService.todosOsTimes();
+        String funcaoMaisComum = apiService.funcaoMaisComum(dataInicial, dataFinal, times);
+
+        if (funcaoMaisComum != null ) {
+            return new ResponseEntity<>(funcaoMaisComum, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

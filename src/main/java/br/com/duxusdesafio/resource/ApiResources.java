@@ -21,7 +21,7 @@ public class ApiResources {
     @Autowired
     private ApiService apiService;
 
-    @GetMapping
+    @GetMapping("/time-da-data")
     public ResponseEntity<TimeDataDTO> timeDaData(@RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate data) {
 
         List<Time> times = apiService.todosOsTimes();

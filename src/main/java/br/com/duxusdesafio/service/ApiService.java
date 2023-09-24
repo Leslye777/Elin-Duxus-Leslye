@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -85,11 +83,34 @@ public class ApiService {
      * Vai retornar uma lista com os nomes dos integrantes do time mais comum
      * dentro do período
      */
-    public List<String> timeMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
-    }
+    public List<String> timeMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
+        Map<List<String>, Long> timesRepetidos = todosOsTimes.stream()
+                .filter(time -> !time.getData().isBefore(dataInicial) && !time.getData().isAfter(dataFinal))
+                .map(time -> time.getComposicaoTime().stream()
+                        .map(composicao -> composicao.getIntegrante().getNome())
+                        .sorted()
+                        .collect(Collectors.toList()))
+                .collect(Collectors.groupingBy(
+                        jogadorNomes -> jogadorNomes,
+                        Collectors.counting()
+                ));
 
+        OptionalLong maxRepeticoes = timesRepetidos.values().stream()
+                .mapToLong(Long::longValue)
+                .max();
+
+        List<List<String>> timesMaisComuns = timesRepetidos.entrySet().stream()
+                .filter(entry -> entry.getValue() == maxRepeticoes.orElse(0L))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        if (!timesMaisComuns.isEmpty()) {
+            // Retorna o primeiro time mais comum (pode haver mais de um com o mesmo número de repetições)
+            return timesMaisComuns.get(0);
+        } else {
+            return Collections.emptyList();
+        }
+    }
     /**
      * Vai retornar a função mais comum nos times dentro do período
      */

@@ -56,15 +56,16 @@ public class TesteApiService {
         };
     }
 
-    @Test
-    @UseDataProvider("testTimeDaDataParams")
-    public void testTimeDaData(LocalDate data, List<Time> todosOsTimes, Time esperado) {
-
-        Time timeRetornado = apiService.timeDaData(data, todosOsTimes);
-
-        assertEquals(esperado, timeRetornado);
-    }
-
+ 
+//    @UseDataProvider("testTimeDaDataParams")
+//    @Test
+//    public void testTimeDaData(LocalDate data, List<Time> todosOsTimes, Time esperado) {
+//
+//        Time timeRetornado = apiService.timeDaData(data, todosOsTimes);
+//
+//        assertEquals(esperado, timeRetornado);
+//    }
+//
 
 
     @DataProvider

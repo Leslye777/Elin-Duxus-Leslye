@@ -1,12 +1,16 @@
 package br.com.duxusdesafio.service;
 
+import br.com.duxusdesafio.dto.TimeDataDTO;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
+import br.com.duxusdesafio.repositories.TimeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Service que possuirá as regras de negócio para o processamento dos dados
@@ -17,12 +21,26 @@ import java.util.Map;
 @Service
 public class ApiService {
 
+    @Autowired
+    private TimeRepository timeRepository;
+
     /**
      * Vai retornar uma lista com os nomes dos integrantes do time daquela data
      */
-    public Time timeDaData(LocalDate data, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public TimeDataDTO timeDaData(LocalDate data) {
+        List<Time> todosOsTimes = timeRepository.findAll();
+
+        List<String> integrantes = todosOsTimes.stream()
+                .filter(time -> time.getData().isEqual(data))
+                .flatMap(time -> time.getComposicaoTime().stream())
+                .map(composicao -> composicao.getIntegrante().getNome())
+                .collect(Collectors.toList());
+
+        TimeDataDTO timeData = new TimeDataDTO();
+        timeData.setData(data);
+        timeData.setIntegrantes(integrantes);
+
+        return timeData;
     }
 
     /**

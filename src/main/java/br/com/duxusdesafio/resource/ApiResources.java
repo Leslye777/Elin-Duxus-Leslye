@@ -1,6 +1,7 @@
 package br.com.duxusdesafio.resource;
 
 import br.com.duxusdesafio.dto.TimeDataDTO;
+import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
 import br.com.duxusdesafio.service.ApiService;
@@ -55,10 +56,8 @@ public class ApiResources {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal
     ) {
-        // Suponha que você já tenha uma lista preenchida de times
         List<Time> times = apiService.todosOsTimes();
 
-        // Chame a função timeMaisComum
         List<String> timeMaisComum = apiService.timeMaisComum(dataInicial, dataFinal, times);
 
         if (!timeMaisComum.isEmpty()) {
@@ -136,6 +135,36 @@ public class ApiResources {
         } catch (Exception e) {
             return new ResponseEntity<>("Erro ao cadastrar o time. "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/cadastrar-integrante")
+    public ResponseEntity<String> cadastrarIntegrante(@RequestBody Integrante integrante) {
+        try {
+            apiService.cadastrarIntegrante(integrante);
+            return new ResponseEntity<>("Integrante cadastrado com sucesso.", HttpStatus.CREATED);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao cadastrar o integrante. "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/cadastrar-composicao")
+    public ResponseEntity<String> cadastrarComposicaoTime(@RequestBody ComposicaoTime composicao) {
+        try {
+            apiService.cadastrarComposicao(composicao);
+            return new ResponseEntity<>("cadastrado com sucesso.", HttpStatus.CREATED);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao cadastrar. "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/integrantes")
+    public ResponseEntity<List<Integrante>> listarIntegrantes() {
+        List<Integrante> integrantes = apiService.listarIntegrantes();
+        return new ResponseEntity<>(integrantes, HttpStatus.OK);
     }
 
 }

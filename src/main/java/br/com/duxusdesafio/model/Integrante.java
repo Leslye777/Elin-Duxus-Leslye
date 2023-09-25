@@ -1,7 +1,6 @@
 package br.com.duxusdesafio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

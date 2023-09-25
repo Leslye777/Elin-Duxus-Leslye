@@ -4,6 +4,8 @@ import br.com.duxusdesafio.dto.TimeDataDTO;
 import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
+import br.com.duxusdesafio.repositories.ComposicaoTimeRepository;
+import br.com.duxusdesafio.repositories.IntegranteRepository;
 import br.com.duxusdesafio.repositories.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,23 @@ import java.util.stream.Collectors;
  *
  * @author carlosau
  */
+
+/**
+ * Não separei as services individualmente tão pouco separei a repositorie para seguir o mesmo padrão do que foi solicitado
+ * usualmente eu sigo os padrões SOLID
+ * @author leslye
+ */
 @Service
 public class ApiService {
 
     @Autowired
     private TimeRepository timeRepository;
 
+    @Autowired
+    private IntegranteRepository integranteRepository;
+
+    @Autowired
+    private ComposicaoTimeRepository composicaoTimeRepository;
 
     public List<Time> todosOsTimes(){
         return timeRepository.findAll();
@@ -229,5 +242,35 @@ public class ApiService {
         }
         timeRepository.save(time);
     }
+    public void cadastrarIntegrante(Integrante integrante) {
+        if(integrante.getFranquia().isEmpty() || integrante.getNome().isEmpty() || integrante.getFuncao().isEmpty()){
+            throw new IllegalArgumentException("campos vazios");
+        }
+        integranteRepository.save(integrante);
+    }
+
+    public void cadastrarComposicao(ComposicaoTime composicaoTime) {
+
+        // Verificar se o objeto composicaoTime é válido
+        if (composicaoTime == null || composicaoTime.getTime() == null || composicaoTime.getIntegrante() == null) {
+            throw new IllegalArgumentException("A composição de time não pode ser nula e deve conter um time e um integrante.");
+        }
+
+        // Verificar se os registros existem
+        timeRepository.findById(composicaoTime.getTime().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Time não encontrado"));
+
+        integranteRepository.findById(composicaoTime.getIntegrante().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Jogador não encontrado"));
+
+
+        composicaoTimeRepository.save(composicaoTime);
+
+    }
+
+    public List<Integrante> listarIntegrantes(){
+        return integranteRepository.findAll();
+    }
+
 
 }

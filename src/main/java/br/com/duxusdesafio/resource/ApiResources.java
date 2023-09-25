@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -95,4 +96,21 @@ public class ApiResources {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/contagem-por-franquia")
+    public ResponseEntity<Map<String, Long>> contagemPorFranquia(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal
+    ) {
+        List<Time> times = apiService.todosOsTimes();
+        Map<String, Long> contagemFranquias = apiService.contagemPorFranquia(dataInicial, dataFinal, times);
+
+        if (!contagemFranquias.isEmpty()) {
+            return new ResponseEntity<>(contagemFranquias, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 }

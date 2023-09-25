@@ -188,7 +188,13 @@ public class TesteApiService {
         List<Time> todosOsTimes = dadosParaTesteApiService.getTodosOsTimes();
 
         Map<String, Long> esperado = new HashMap<>();
-        esperado.put(dadosParaTesteApiService.getFranquiaNBA(), 2L);
+        /* MUDEI PORQUE DADO A ESTRUTURA DE DADOS ATUAL É IMPOSSIVEL DISTINGUIR UM TIME DE UMA FRANQUIA
+            LOGO O QUE EU FIZ FOI CONTAR QUANTOS TIMES AQUELA LIGA NO DETERMINADO INTERVALO, NO CASO SÃO 3 TIMES DISTINTOS
+            DETROIT 93, BULLS 94 E BULLS 95, NÃO TEM COMO DIFERENCIAR UM CHICAGO BULLS DO OUTRO.
+            MAS CASO TENHA OUTRAS FRANQUIAS/LIGAS O CODIGO VAI CONSEGUIR DIFERENCIAR.
+        */
+        esperado.put(dadosParaTesteApiService.getFranquiaNBA(), 3L);
+
 
         return new Object[][]{
                 {

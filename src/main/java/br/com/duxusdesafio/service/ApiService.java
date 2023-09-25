@@ -178,10 +178,28 @@ public class ApiService {
     /**
      * Vai retornar o nome da Franquia mais comum nos times dentro do período
      */
-    public Map<String, Long> contagemPorFranquia(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public Map<String, Long> contagemPorFranquia(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
+        // Filtra os times que estão dentro do período
+        List<Time> timesNoPeriodo = todosOsTimes.stream()
+                .filter(time -> !time.getData().isBefore(dataInicial) && !time.getData().isAfter(dataFinal))
+                .collect(Collectors.toList());
+
+        // Contagem de times por franquia
+        Map<String, Long> contagemFranquias = timesNoPeriodo.stream()
+                .flatMap(time -> time.getComposicaoTime().stream())
+                .map(composicao -> composicao.getIntegrante().getFranquia())
+                .distinct() // Garante que não haja franquias duplicadas
+                .collect(Collectors.toMap(
+                        franquia -> franquia, // Chave é a franquia
+                        franquia -> timesNoPeriodo.stream()
+                                .filter(time -> time.getComposicaoTime().stream()
+                                        .anyMatch(composicao -> composicao.getIntegrante().getFranquia().equals(franquia)))
+                                .count() // Conta os times com essa franquia
+                ));
+
+        return contagemFranquias;
     }
+
 
     /**
      * Vai retornar o número (quantidade) de Funções dentro do período

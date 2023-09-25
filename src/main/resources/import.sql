@@ -20,3 +20,4 @@ INSERT INTO composicao_time (time_id, integrante_id) VALUES (2, 3); -- Scottie P
 
 -- Inserção da composição do Time Detroit Pistons de 1993
 INSERT INTO composicao_time (time_id, integrante_id) VALUES (3, 2); -- Denis Rodman
+

@@ -112,5 +112,19 @@ public class ApiResources {
         }
     }
 
+    @GetMapping("/contagem-por-funcao")
+    public ResponseEntity<Map<String, Long>> contagemPorFuncao(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal
+    ) {
+        Map<String, Long> contagemFuncoes = apiService.contagemPorFuncao(dataInicial, dataFinal, apiService.todosOsTimes());
+
+        if (!contagemFuncoes.isEmpty()) {
+            return new ResponseEntity<>(contagemFuncoes, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }

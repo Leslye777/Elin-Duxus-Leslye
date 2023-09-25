@@ -126,5 +126,16 @@ public class ApiResources {
         }
     }
 
+    @PostMapping("/cadastrar-time")
+    public ResponseEntity<String> cadastrarTime(@RequestBody Time time) {
+        try {
+            apiService.cadastrarTime(time);
+            return new ResponseEntity<>("Time cadastrado com sucesso.", HttpStatus.CREATED);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao cadastrar o time. "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

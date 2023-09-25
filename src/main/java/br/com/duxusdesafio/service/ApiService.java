@@ -221,6 +221,13 @@ public class ApiService {
         return contagemFuncoes;
     }
 
-
+    public void cadastrarTime(Time time) {
+        // Verificar se a data é uma data válida
+        LocalDate data = time.getData();
+        if (data == null) {
+            throw new IllegalArgumentException("A data do time não pode ser nula.");
+        }
+        timeRepository.save(time);
+    }
 
 }

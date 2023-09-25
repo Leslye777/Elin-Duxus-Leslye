@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CadastroTimeComponent } from './cadastro-time/cadastro-time.component';
+import { CadastroDeIntegrantesComponent } from './cadastro-de-integrantes/cadastro-de-integrantes.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MontagemDeTimeComponent } from './montagem-de-time/montagem-de-time.component';
+
 
 const routes: Routes = [
-  { path: 'cadastro', component: CadastroTimeComponent },
+  { path: 'cadastro', component:  CadastroDeIntegrantesComponent},
+  { path: 'montagem', component:  MontagemDeTimeComponent}
 ];
 
 @NgModule({

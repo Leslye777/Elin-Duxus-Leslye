@@ -249,24 +249,20 @@ public class ApiService {
         integranteRepository.save(integrante);
     }
 
-    public void cadastrarComposicao(ComposicaoTime composicaoTime) {
-
-        // Verificar se o objeto composicaoTime é válido
-        if (composicaoTime == null || composicaoTime.getTime() == null || composicaoTime.getIntegrante() == null) {
-            throw new IllegalArgumentException("A composição de time não pode ser nula e deve conter um time e um integrante.");
-        }
-
+    public void cadastrarComposicao(Long idTime, Long idIntegrante) {
         // Verificar se os registros existem
-        timeRepository.findById(composicaoTime.getTime().getId())
+        Time time = timeRepository.findById(idTime)
                 .orElseThrow(() -> new IllegalArgumentException("Time não encontrado"));
 
-        integranteRepository.findById(composicaoTime.getIntegrante().getId())
+        Integrante integrante = integranteRepository.findById(idIntegrante)
                 .orElseThrow(() -> new IllegalArgumentException("Jogador não encontrado"));
 
+        // Crie a composição de time com os registros encontrados
+        ComposicaoTime composicaoTime = new ComposicaoTime(time, integrante);
 
         composicaoTimeRepository.save(composicaoTime);
-
     }
+
 
     public List<Integrante> listarIntegrantes(){
         return integranteRepository.findAll();

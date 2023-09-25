@@ -1,4 +1,4 @@
-import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,29 +6,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AppService {
-  private baseUrl = 'http://localhost:8765/lib/api/';
+  private baseUrl = 'http://localhost:8080/api/';
 
   constructor(private http: HttpClient) { }
 
-  getBooks(): Observable<any> {
-    return this.http.get<any>(this.baseUrl + 'books', );
+  inserirIntegrante(integrante: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'cadastrar-integrante', integrante);
   }
 
-  getBookCopiesByBookId(id: number): Observable<any> {
-    return this.http.get<any>(this.baseUrl + 'book-copies/book-id/' + id);
+  listarIntegrantes(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'integrantes', );
   }
 
-  createBook(book: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'books', book);
-  }
+  cadastrarComposicaoTime(idTime: number, idIntegrante: number): Observable<any> {
+    const params = new HttpParams()
+      .set('idTime', idTime.toString())
+      .set('idIntegrante', idIntegrante.toString());
 
-  updateBook(book: any, id: number): Observable<any> {
-    return this.http.put<any>(this.baseUrl + 'books/' + id, book);
+    return this.http.post<any>(this.baseUrl + 'cadastrar-composicao', {}, { params });
   }
-
-  createNote(message: any): Observable<any> {
-    return this.http.post<any>('http://localhost:8765/user/api/notifications' , message);
-  }
-
 
 }

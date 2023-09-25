@@ -150,9 +150,11 @@ public class ApiResources {
     }
 
     @PostMapping("/cadastrar-composicao")
-    public ResponseEntity<String> cadastrarComposicaoTime(@RequestBody ComposicaoTime composicao) {
+    public ResponseEntity<String> cadastrarComposicaoTime(   @RequestParam("idTime") Long idTime,
+                                                             @RequestParam("idIntegrante") Long idIntegrante
+    ) {
         try {
-            apiService.cadastrarComposicao(composicao);
+            apiService.cadastrarComposicao(idTime, idIntegrante);
             return new ResponseEntity<>("cadastrado com sucesso.", HttpStatus.CREATED);
         } catch (IllegalArgumentException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);

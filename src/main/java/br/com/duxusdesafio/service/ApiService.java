@@ -201,12 +201,26 @@ public class ApiService {
     }
 
 
-    /**
-     * Vai retornar o número (quantidade) de Funções dentro do período
-     */
-    public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
+        // Filtra os times que estão dentro do período
+        List<Time> timesNoPeriodo = todosOsTimes.stream()
+                .filter(time -> !time.getData().isBefore(dataInicial) && !time.getData().isAfter(dataFinal))
+                .collect(Collectors.toList());
+
+        // Obtém todos os integrantes dos times no período
+        List<Integrante> integrantesNoPeriodo = timesNoPeriodo.stream()
+                .flatMap(time -> time.getComposicaoTime().stream())
+                .map(ComposicaoTime::getIntegrante)
+                .collect(Collectors.toList());
+
+        // Contagem de funções por nome
+        Map<String, Long> contagemFuncoes = integrantesNoPeriodo.stream()
+                .distinct()
+                .collect(Collectors.groupingBy(Integrante::getFuncao, Collectors.counting()));
+
+        return contagemFuncoes;
     }
+
+
 
 }

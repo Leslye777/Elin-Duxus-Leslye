@@ -246,4 +246,49 @@ public class TesteApiService {
         assertEquals(esperado, contagemPorFuncao);
     }
 
+    /**
+     * novos testes para quando não houver correspondencia de dados
+     */
+    @Test
+    public void testTimeDaDataSemCorrespondencia() {
+        LocalDate data = LocalDate.of(2023, 1, 1);
+        List<Time> todosOsTimes = Collections.emptyList(); // Lista vazia de times
+
+        TimeDataDTO timeData = apiService.timeDaData(data, todosOsTimes);
+
+        assertEquals(data, timeData.getData());
+        assertEquals(Collections.emptyList(), timeData.getIntegrantes());
+    }
+
+    @Test
+    public void testContagemPorFuncaoSemResultado() {
+        LocalDate dataInicial = LocalDate.of(1993, 1, 1);
+        LocalDate dataFinal = LocalDate.of(1995, 1, 1);
+        List<Time> todosOsTimes = Collections.emptyList();
+
+        Map<String, Long> contagemPorFuncao = apiService.contagemPorFuncao(dataInicial, dataFinal, todosOsTimes);
+
+        assertEquals(Collections.emptyMap(), contagemPorFuncao);
+    }
+
+    @Test
+    public void testContagemPorFranquiaNoTimes() {
+        LocalDate dataInicial = LocalDate.of(1993, 1, 1);
+        LocalDate dataFinal = LocalDate.of(1995, 1, 1);
+        List<Time> todosOsTimes = Collections.emptyList();
+
+        Map<String, Long> contagemPorFranquia = apiService.contagemPorFranquia(dataInicial, dataFinal, todosOsTimes);
+
+        assertEquals(Collections.emptyMap(), contagemPorFranquia);
+    }
+    @Test
+    public void testIntegranteMaisUsadoNoIntegrantes() {
+        LocalDate dataInicial = LocalDate.of(1993, 1, 1);
+        LocalDate dataFinal = LocalDate.of(1995, 1, 1);
+        List<Time> todosOsTimes = Collections.emptyList();
+
+        Integrante integranteRetornado = apiService.integranteMaisUsado(dataInicial, dataFinal, todosOsTimes);
+
+        assertEquals(null, integranteRetornado);
+    }
 }

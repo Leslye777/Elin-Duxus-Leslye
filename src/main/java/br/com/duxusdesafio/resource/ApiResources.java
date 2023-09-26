@@ -129,7 +129,7 @@ public class ApiResources {
     public ResponseEntity<String> cadastrarTime(@RequestBody Time time) {
         try {
             apiService.cadastrarTime(time);
-            return new ResponseEntity<>("Time cadastrado com sucesso.", HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IllegalArgumentException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -141,7 +141,7 @@ public class ApiResources {
     public ResponseEntity<String> cadastrarIntegrante(@RequestBody Integrante integrante) {
         try {
             apiService.cadastrarIntegrante(integrante);
-            return new ResponseEntity<>("Integrante cadastrado com sucesso.", HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IllegalArgumentException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -155,7 +155,7 @@ public class ApiResources {
     ) {
         try {
             apiService.cadastrarComposicao(idTime, idIntegrante);
-            return new ResponseEntity<>("cadastrado com sucesso.", HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IllegalArgumentException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {

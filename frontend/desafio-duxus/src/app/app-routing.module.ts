@@ -6,6 +6,7 @@ import { MontagemDeTimeComponent } from './montagem-de-time/montagem-de-time.com
 
 
 const routes: Routes = [
+  { path: '', component:  CadastroDeIntegrantesComponent},
   { path: 'cadastro', component:  CadastroDeIntegrantesComponent},
   { path: 'montagem', component:  MontagemDeTimeComponent}
 ];

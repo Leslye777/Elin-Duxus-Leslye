@@ -28,12 +28,14 @@ export class CadastroDeIntegrantesComponent implements OnInit {
       const integranteData = this.integranteForm.value;
       this.integranteService.inserirIntegrante(integranteData).subscribe(
         response => {
+          alert("cadastrado com sucesso")
           this.router.navigate(['/montagem/']);
-          // Você pode redirecionar o usuário para outra página ou fazer algo aqui após a inserção
+
         },
         error => {
-          console.error('Erro ao inserir integrante:', error);
+          alert('Erro ao inserir integrante: '+error)
           this.router.navigate(['/montagem/']);
+
 
         }
       );

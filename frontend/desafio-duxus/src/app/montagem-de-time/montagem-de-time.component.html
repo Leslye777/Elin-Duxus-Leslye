@@ -1,14 +1,21 @@
-<form [formGroup]="montagemForm" (ngSubmit)="onSubmit()">
-  <label for="timeId">ID do Time:</label>
-  <input type="text" id="timeId" name="timeId" formControlName="timeId" placeholder="Digite o ID do Time">
+<div class="container">
+  <h1>Adicionar Jogador à Montagem</h1>
+  <form [formGroup]="montagemForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="timeId">ID do Time:</label>
+      <input type="text" id="timeId" name="timeId" formControlName="timeId" placeholder="Digite o ID do Time">
+    </div>
 
-  <label>Jogadores Disponíveis:</label>
-  <ul>
-    <li *ngFor="let jogador of integrantes">
-      <input type="radio" [id]="jogador.id" name="jogador" [value]="jogador.id" formControlName="jogador">
-      <label [for]="jogador.id">{{ jogador.nome }}</label>
-    </li>
-  </ul>
+    <div class="form-group">
+      <label>Jogadores Disponíveis:</label>
+      <ul>
+        <li *ngFor="let jogador of integrantes">
+          <input type="radio" [id]="jogador.id" name="jogador" [value]="jogador.id" formControlName="jogador">
+          <label [for]="jogador.id">{{ jogador.nome }}</label>
+        </li>
+      </ul>
+    </div>
 
-  <button type="submit">Adicionar Jogador</button>
-</form>
+    <button type="submit" class="btn btn-primary">Adicionar Jogador</button>
+  </form>
+</div>

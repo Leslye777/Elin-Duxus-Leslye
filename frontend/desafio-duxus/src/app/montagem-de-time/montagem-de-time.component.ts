@@ -30,13 +30,14 @@ export class MontagemDeTimeComponent implements OnInit {
       const timeId = this.montagemForm.get('timeId')?.value;
       const jogador = this.montagemForm.get('jogador')?.value;
 
-      // Chame seu serviço para adicionar o jogador ao time pelo ID
       this.appService.cadastrarComposicaoTime(timeId, jogador).subscribe(
         (response) => {
-          // Lide com a resposta, por exemplo, atualize a lista de jogadores no time
           console.log('Jogador adicionado com sucesso:', response);
+          alert("cadastrado com sucesso")
+
         },
         (error) => {
+          alert("erro ao cadastrar")
           console.error('Erro ao adicionar jogador:', error);
         }
       );
